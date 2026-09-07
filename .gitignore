@@ -3,5 +3,4 @@ obj/
 .vs/
 *.user
 *.suo
-appsettings.json
-appsettings.*
+**/appsettings*.json

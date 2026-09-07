@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SaveMoney.Application\SaveMoney.Application.csproj" />
+    <ProjectReference Include="..\SaveMoney.Domain\SaveMoney.Domain.csproj" />
+    <ProjectReference Include="..\SaveMoney.Infra.Data\SaveMoney.Infra.Data.csproj" />
+  </ItemGroup>
+
+</Project>

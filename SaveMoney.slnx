@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/Itens de Solução/">
+    <File Path=".gitignore" />
+    <File Path="README.md" />
+  </Folder>
+  <Project Path="SaveMoney.Application/SaveMoney.Application.csproj" />
+  <Project Path="SaveMoney.Domain.Tests/SaveMoney.Domain.Tests.csproj" />
+  <Project Path="SaveMoney.Domain/SaveMoney.Domain.csproj" />
+  <Project Path="SaveMoney.Infra.Data/SaveMoney.Infra.Data.csproj" />
+  <Project Path="SaveMoney.Infra.IoC/SaveMoney.Infra.IoC.csproj" />
+  <Project Path="SaveMoney.WebAPI/SaveMoney.WebAPI.csproj" />
+</Solution>

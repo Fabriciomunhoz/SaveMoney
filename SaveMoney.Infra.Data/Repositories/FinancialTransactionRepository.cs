@@ -23,14 +23,16 @@ namespace SaveMoney.Infra.Data.Repositories
         public async Task<FinancialTransaction> GetByIdAsync(int? id)
         {
             return await _ctx.FinancialTransactions
-                .FindAsync(id);
+                .Include(x => x.User)
+                .SingleOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<FinancialTransaction> GetFinancialTransactionUserAsync(int? id)
+        public async Task<IEnumerable<FinancialTransaction>> GetFinancialTransactionUserAsync(int? id)
         {
             return await _ctx.FinancialTransactions
                 .Include(x => x.User)
-                .SingleOrDefaultAsync(x => x.Id == id);
+                .Where(x => x.IdUser == id)
+                .ToListAsync();
         }
 
         public async Task<FinancialTransaction> CreateAsync(FinancialTransaction financialTransaction)

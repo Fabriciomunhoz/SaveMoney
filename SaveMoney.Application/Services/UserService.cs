@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using MediatR;
 using SaveMoney.Application.DTOs;
+using SaveMoney.Application.Features.Users.Commands;
 using SaveMoney.Application.Interfaces;
-using SaveMoney.Application.Users.Commands;
-using SaveMoney.Application.Users.Queries;
+using SaveMoney.Application.Features.Users.Queries;
 
 namespace SaveMoney.Application.Services
 {

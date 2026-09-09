@@ -1,9 +1,9 @@
 ﻿using MediatR;
-using SaveMoney.Application.Users.Queries;
+using SaveMoney.Application.Features.Users.Queries;
 using SaveMoney.Domain.Entities;
 using SaveMoney.Domain.Interfaces;
 
-namespace SaveMoney.Application.Users.Handlers
+namespace SaveMoney.Application.Features.Users.Handlers
 {
     public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, User>
     {

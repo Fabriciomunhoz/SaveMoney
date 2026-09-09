@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using SaveMoney.Application.DTOs;
-using SaveMoney.Application.Users.Commands;
+using SaveMoney.Application.Features.FinancialTransactions.Commands;
+using SaveMoney.Application.Features.Users.Commands;
 
 namespace SaveMoney.Application.Mappings
 {
@@ -10,6 +11,9 @@ namespace SaveMoney.Application.Mappings
         {
             CreateMap<UserDTO, UserCreateCommand>();
             CreateMap<UserDTO, UserUpdateCommand>();
+
+            CreateMap<FinancialTransactionDTO, FinancialTransactionCreateCommand>();
+            CreateMap<FinancialTransactionDTO, FinancialTransactionUpdateCommand>();
         }
     }
 }

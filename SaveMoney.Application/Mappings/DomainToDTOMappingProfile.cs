@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using SaveMoney.Application.DTOs;
-using SaveMoney.Application.Users.Commands;
+using SaveMoney.Application.Features.Users.Commands;
 using SaveMoney.Domain.Entities;
 
 namespace SaveMoney.Application.Mappings

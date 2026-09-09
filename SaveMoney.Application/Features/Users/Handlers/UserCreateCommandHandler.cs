@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using SaveMoney.Application.Users.Commands;
+using SaveMoney.Application.Features.Users.Commands;
 using SaveMoney.Domain.Entities;
 using SaveMoney.Domain.Interfaces;
 using System;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SaveMoney.Application.Users.Handlers
+namespace SaveMoney.Application.Features.Users.Handlers
 {
     public class UserCreateCommandHandler : IRequestHandler<UserCreateCommand, User>
     {

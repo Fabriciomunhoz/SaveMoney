@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using SaveMoney.Domain.Entities;
 
-namespace SaveMoney.Application.Users.Commands
+namespace SaveMoney.Application.Features.Users.Commands
 {
     public class UserRemoveCommand : IRequest<User>
     {

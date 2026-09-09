@@ -1,5 +1,9 @@
 ﻿using AutoMapper;
+using MediatR;
 using SaveMoney.Application.DTOs;
+using SaveMoney.Application.Features.FinancialTransactions.Commands;
+using SaveMoney.Application.Features.FinancialTransactions.Queries;
+using SaveMoney.Application.Features.Users.Commands;
 using SaveMoney.Application.Interfaces;
 using SaveMoney.Domain.Entities;
 using SaveMoney.Domain.Interfaces;
@@ -8,44 +12,51 @@ namespace SaveMoney.Application.Services
 {
     public class FinancialTransactionService : IFinancialTransactionService
     {
-        private readonly IFinancialTransactionRepository _financialTransactionRepository;
+        private readonly IMediator _mediator;
         private readonly IMapper _mapper;
-
-        public FinancialTransactionService(IFinancialTransactionRepository financialTransactionRepository, IMapper mapper)
+        public FinancialTransactionService(IMediator mediator, IMapper mapper)
         {
-            _financialTransactionRepository = financialTransactionRepository ??
-                throw new ArgumentNullException(nameof(financialTransactionRepository));
+            _mediator = mediator;
             _mapper = mapper;
         }
 
         public async Task<IEnumerable<FinancialTransactionDTO>> GetFinancialTransactions()
         {
-            var financialTransactionsEntity = await _financialTransactionRepository.GetFinancialTransactionsAsync();
-            return _mapper.Map<IEnumerable<FinancialTransactionDTO>>(financialTransactionsEntity);
+            var financialQuery = new GetFinancialTransactionsQuery();
+            if (financialQuery == null)
+                throw new ArgumentNullException("Financial transaction is null.");
+
+            var result = await _mediator.Send(financialQuery);
+            return _mapper.Map<IEnumerable<FinancialTransactionDTO>>(result);
         }
 
         public async Task<FinancialTransactionDTO> GetById(int? id)
         {
-            var financialTransactionEntity = await _financialTransactionRepository.GetByIdAsync(id);
-            return _mapper.Map<FinancialTransactionDTO>(financialTransactionEntity);
+            var financialIdQuery = new GetFinancialTransactionByIdQuery(id.Value);
+            if (financialIdQuery == null)
+                throw new ArgumentNullException("Financial transaction is null.");
+            var result = await _mediator.Send(financialIdQuery);
+            return _mapper.Map<FinancialTransactionDTO>(result);
         }
 
         public async Task Add(FinancialTransactionDTO financialTransactionDTO)
         {
-            var financialTransactionEntity = _mapper.Map<FinancialTransaction>(financialTransactionDTO);
-            await _financialTransactionRepository.CreateAsync(financialTransactionEntity);
+            var financialTransactionEntity = _mapper.Map<FinancialTransactionCreateCommand>(financialTransactionDTO);
+            await _mediator.Send(financialTransactionEntity);
         }
 
         public async Task Update(FinancialTransactionDTO financialTransactionDTO)
         {
-            var financialTransactionEntity = _mapper.Map<FinancialTransaction>(financialTransactionDTO);
-            await _financialTransactionRepository.UpdateAsync(financialTransactionEntity);
+            var financialTransactionEntity = _mapper.Map<FinancialTransactionUpdateCommand>(financialTransactionDTO);
+            await _mediator.Send(financialTransactionEntity);
         }
 
         public async Task Remove(int? id)
         {
-            var financialTransactionEntity = await _financialTransactionRepository.GetByIdAsync(id);
-            await _financialTransactionRepository.DeleteAsync(financialTransactionEntity);
+            var financialTransactionId = new FinancialTransactionRemoveCommand(id.Value);
+            if (financialTransactionId == null)
+                throw new ArgumentNullException("Financial transaction is null.");
+            await _mediator.Send(financialTransactionId);
         }
     }
 }

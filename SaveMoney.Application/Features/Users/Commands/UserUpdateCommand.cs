@@ -1,4 +1,4 @@
-﻿namespace SaveMoney.Application.Users.Commands
+﻿namespace SaveMoney.Application.Features.Users.Commands
 {
     public class UserUpdateCommand : UserCommand
     {

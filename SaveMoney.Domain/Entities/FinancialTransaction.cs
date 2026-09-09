@@ -8,7 +8,7 @@ namespace SaveMoney.Domain.Entities
         public decimal Amount { get; private set; }
         public string Description { get; private set; }
         public TransactionType Type { get; private set; }
-        public int IdUser { get; private set; }
+        public int IdUser { get; set; }
         public User User { get; set; }
 
         public FinancialTransaction(decimal amount, string description, TransactionType type)
@@ -23,9 +23,10 @@ namespace SaveMoney.Domain.Entities
             ValidateDomain(amount, description, type);
         }
 
-        public void Update(decimal amount, string description, TransactionType type)
+        public void Update(decimal amount, string description, TransactionType type, int idUser)
         {
             ValidateDomain(amount, description, type);
+            IdUser = idUser;
         }
 
         private void ValidateDomain(decimal amount, string description, TransactionType type)

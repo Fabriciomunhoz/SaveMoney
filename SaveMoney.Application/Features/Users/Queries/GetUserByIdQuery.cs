@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using SaveMoney.Domain.Entities;
 
-namespace SaveMoney.Application.Users.Queries
+namespace SaveMoney.Application.Features.Users.Queries
 {
     public class GetUserByIdQuery : IRequest<User>
     {

@@ -1,12 +1,7 @@
 ﻿using SaveMoney.Domain.Entities;
 using SaveMoney.Domain.Enums;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SaveMoney.Application.DTOs
 {
@@ -22,6 +17,11 @@ namespace SaveMoney.Application.DTOs
         public string Description { get; set; }
         [DisplayName("Type")]
         public TransactionType Type { get; set; }
+        [DisplayName("StarDate")]
+        public DateTime StartDate { get; private set; }
+        [DisplayName("DurationInMonths")]
+        [Required(ErrorMessage = "The Duration is Required")]
+        public int DurationInMonths { get; private set; }
         [DisplayName("IdUser")]
         public int IdUser { get; set; }
         [DisplayName("User")]

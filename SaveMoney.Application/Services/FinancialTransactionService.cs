@@ -3,10 +3,7 @@ using MediatR;
 using SaveMoney.Application.DTOs;
 using SaveMoney.Application.Features.FinancialTransactions.Commands;
 using SaveMoney.Application.Features.FinancialTransactions.Queries;
-using SaveMoney.Application.Features.Users.Commands;
 using SaveMoney.Application.Interfaces;
-using SaveMoney.Domain.Entities;
-using SaveMoney.Domain.Interfaces;
 
 namespace SaveMoney.Application.Services
 {

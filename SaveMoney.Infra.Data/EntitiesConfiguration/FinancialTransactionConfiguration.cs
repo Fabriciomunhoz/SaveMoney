@@ -13,6 +13,9 @@ namespace SaveMoney.Infra.Data.EntitiesConfiguration
             builder.Property(x => x.Description).HasMaxLength(100).IsRequired();
             builder.Property(x => x.Amount).HasPrecision(10,2);
             builder.Property(x => x.Type).HasConversion<string>().HasMaxLength(30).IsRequired();
+            builder.Property(x => x.StartDate).IsRequired();
+            builder.Property(x => x.DurationInMonths).IsRequired();
+            builder.Property(x => x.EndDate).IsRequired();
 
             builder.HasOne(x => x.User).WithMany(x => x.FinancialTransactions).HasForeignKey(x => x.IdUser);
         }

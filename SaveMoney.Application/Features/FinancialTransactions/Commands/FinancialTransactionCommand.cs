@@ -10,5 +10,7 @@ namespace SaveMoney.Application.Features.FinancialTransactions.Commands
         public string Description { get; set; }
         public TransactionType Type { get; set; }
         public int IdUser { get; set; }
+        public DateTime StartDate { get; set; }
+        public int DurationInMonths { get; set; }
     }
 }

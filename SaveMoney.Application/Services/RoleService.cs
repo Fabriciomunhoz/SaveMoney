@@ -1,5 +1,10 @@
 ﻿using AutoMapper;
+using MediatR;
 using SaveMoney.Application.DTOs;
+using SaveMoney.Application.Features.Roles.Commands;
+using SaveMoney.Application.Features.Roles.Queries;
+using SaveMoney.Application.Features.Users.Commands;
+using SaveMoney.Application.Features.Users.Queries;
 using SaveMoney.Application.Interfaces;
 using SaveMoney.Domain.Entities;
 using SaveMoney.Domain.Interfaces;
@@ -13,44 +18,50 @@ namespace SaveMoney.Application.Services
 {
     public class RoleService : IRoleService
     {
-        private readonly IRoleRepository _roleRepository;
+        private readonly IMediator _mediator;
         private readonly IMapper _mapper;
 
-        public RoleService(IRoleRepository roleRepository, IMapper mapper)
+        public RoleService(IMapper mapper, IMediator mediator)
         {
-            _roleRepository = roleRepository ?? 
-                throw new ArgumentNullException(nameof(roleRepository));
             _mapper = mapper;
+            _mediator = mediator;
         }
 
         public async Task<IEnumerable<RoleDTO>> GetRoles()
         {
-            var rolesEntity = await _roleRepository.GetRolesAsync();
-            return _mapper.Map<IEnumerable<RoleDTO>>(rolesEntity);
+            var rolesQuery = new GetUsersQuery();
+            if (rolesQuery == null)
+                throw new ArgumentNullException("Entity could not be loaded");
+
+            var result = await _mediator.Send(rolesQuery);
+            return _mapper.Map<IEnumerable<RoleDTO>>(result);
         }
 
         public async Task<RoleDTO> GetById(int? id)
         {
-            var roleEntity = await _roleRepository.GetByIdAsync(id);
-            return _mapper.Map<RoleDTO>(roleEntity);
+            var roleQuery = new GetRoleByIdQuery(id.Value);
+            if (roleQuery == null)
+                throw new ArgumentNullException("Entity could not be loaded");
+            var result = await _mediator.Send(roleQuery);
+            return _mapper.Map<RoleDTO>(result);
         }
 
         public async Task Add(RoleDTO roleDTO)
         {
-            var roleEntity = _mapper.Map<Role>(roleDTO);
-            await _roleRepository.CreateAsync(roleEntity);
+            var roleCreateCommand = _mapper.Map<RoleCreateCommand>(roleDTO);
+            await _mediator.Send(roleCreateCommand);
         }
 
         public async Task Update(RoleDTO roleDTO)
         {
-            var roleEntity = _mapper.Map<Role>(roleDTO);
-            await _roleRepository.UpdateAsync(roleEntity);
+            var roleUpdateCommand = _mapper.Map<RoleUpdateCommand>(roleDTO);
+            await _mediator.Send(roleUpdateCommand);
         }
 
         public async Task Remove(int? id)
         {
-            var roleEntity = await _roleRepository.GetByIdAsync(id);
-            await _roleRepository.DeleteAsync(roleEntity);
+            var roleRemoveCommand = _mapper.Map<RoleRemoveCommand>(id);
+            await _mediator.Send(roleRemoveCommand);
         }
 
         

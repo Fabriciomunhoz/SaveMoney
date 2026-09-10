@@ -19,7 +19,7 @@ namespace SaveMoney.Application.Features.FinancialTransactions.Handlers
             var financialTransaction = await _financialTransactionRepository.GetByIdAsync(request.Id);
             if (financialTransaction == null)
                 throw new ApplicationException("Financial transaction is null.");
-            financialTransaction.Update(request.Amount, request.Description, request.Type, request.IdUser);
+            financialTransaction.Update(request.Amount, request.Description, request.Type, request.IdUser, request.StartDate, request.DurationInMonths);
             return await _financialTransactionRepository.UpdateAsync(financialTransaction);
         }
     }

@@ -22,9 +22,7 @@ namespace SaveMoney.Application.DTOs
         [DisplayName("DurationInMonths")]
         [Required(ErrorMessage = "The Duration is Required")]
         public int DurationInMonths { get; private set; }
-        [DisplayName("IdUser")]
-        public int IdUser { get; set; }
-        [DisplayName("User")]
-        public User User { get; set; }
+        public int? ParentTransactionId { get; set; }
+        public string UserId { get; set; }
     }
 }

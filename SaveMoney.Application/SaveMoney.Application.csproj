@@ -15,4 +15,8 @@
     <ProjectReference Include="..\SaveMoney.Domain\SaveMoney.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\ApplicationUsers\Queries\" />
+  </ItemGroup>
+
 </Project>

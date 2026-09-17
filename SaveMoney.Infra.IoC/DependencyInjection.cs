@@ -3,7 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 using SaveMoney.Application;
 using SaveMoney.Application.Mappings;
 using SaveMoney.Infra.IoC.Configurations;
-using SaveMoney.Infra.IoC.Services;
 
 namespace SaveMoney.Infra.IoC
 {
@@ -12,14 +11,16 @@ namespace SaveMoney.Infra.IoC
         public static IServiceCollection AddInfrastructure(this IServiceCollection services,
             IConfiguration configuration)
         {
-            services
-                .AddDbContextConfiguration(configuration)
-                .AddAutoMapper(cfg => { },
-                    typeof(DomainToDTOMappingProfile).Assembly)
-                .AddMediatR(cfg =>
-                    cfg.RegisterServicesFromAssembly(
-                        typeof(ApplicationAssemblyMarker).Assembly))
-                .AddServicesConfiguration();
+            services.AddDbContextConfiguration(configuration);
+            services.AddSwaggerConfiguration();
+            services.AddControllers();
+            services.AddAutoMapper(cfg => { },
+                typeof(DomainToDTOMappingProfile).Assembly);
+            services.AddMediatR(cfg =>
+                cfg.RegisterServicesFromAssembly(
+                    typeof(ApplicationAssemblyMarker).Assembly));
+            services.AddSecurityConfiguration(configuration);
+            services.AddServicesConfiguration();
 
             return services;
         }

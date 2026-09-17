@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SaveMoney.Infra.Data.Context;
 
@@ -11,9 +12,11 @@ using SaveMoney.Infra.Data.Context;
 namespace SaveMoney.Infra.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260912030144_AddIdentityTables")]
+    partial class AddIdentityTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -184,14 +187,14 @@ namespace SaveMoney.Infra.Data.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("IdUser")
+                        .HasColumnType("int");
+
                     b.Property<int>("ModifiedBy")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<int?>("ParentTransactionId")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
@@ -201,17 +204,109 @@ namespace SaveMoney.Infra.Data.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.Property<string>("UserId")
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdUser");
+
+                    b.ToTable("FinancialTransactions");
+                });
+
+            modelBuilder.Entity("SaveMoney.Domain.Entities.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ModifiedBy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ParentTransactionId");
+                    b.ToTable("Roles");
 
-                    b.HasIndex("UserId");
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedBy = 0,
+                            CreatedDate = new DateTime(2026, 9, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ModifiedBy = 0,
+                            Name = "Admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedBy = 0,
+                            CreatedDate = new DateTime(2026, 9, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ModifiedBy = 0,
+                            Name = "Usuario"
+                        });
+                });
 
-                    b.ToTable("FinancialTransactions");
+            modelBuilder.Entity("SaveMoney.Domain.Entities.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Age")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Cpf")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("IdRole")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ModifiedBy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdRole");
+
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("SaveMoney.Infra.Data.Identity.ApplicationUser", b =>
@@ -332,21 +427,32 @@ namespace SaveMoney.Infra.Data.Migrations
 
             modelBuilder.Entity("SaveMoney.Domain.Entities.FinancialTransaction", b =>
                 {
-                    b.HasOne("SaveMoney.Domain.Entities.FinancialTransaction", "ParentTransaction")
-                        .WithMany()
-                        .HasForeignKey("ParentTransactionId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("SaveMoney.Infra.Data.Identity.ApplicationUser", null)
+                    b.HasOne("SaveMoney.Domain.Entities.User", "User")
                         .WithMany("FinancialTransactions")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("IdUser")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ParentTransaction");
+                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("SaveMoney.Infra.Data.Identity.ApplicationUser", b =>
+            modelBuilder.Entity("SaveMoney.Domain.Entities.User", b =>
+                {
+                    b.HasOne("SaveMoney.Domain.Entities.Role", "Role")
+                        .WithMany("Users")
+                        .HasForeignKey("IdRole")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("SaveMoney.Domain.Entities.Role", b =>
+                {
+                    b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("SaveMoney.Domain.Entities.User", b =>
                 {
                     b.Navigation("FinancialTransactions");
                 });

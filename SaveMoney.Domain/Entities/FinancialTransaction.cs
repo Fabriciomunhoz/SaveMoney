@@ -11,25 +11,28 @@ namespace SaveMoney.Domain.Entities
         public DateTime StartDate { get; private set; }
         public int DurationInMonths { get; private set; }
         public DateTime EndDate { get; private set; }
-        public int IdUser { get; set; }
-        public User User { get; set; }
+        public string UserId { get; set; }
+        public int? ParentTransactionId { get; set; }
+        public FinancialTransaction? ParentTransaction { get; set; }
 
-        public FinancialTransaction(decimal amount, string description, TransactionType type, DateTime startDate, int durationInMonths)
+
+        public FinancialTransaction(decimal amount, string description, TransactionType type, DateTime startDate, int durationInMonths, string userId)
         {
             ValidateDomain(amount, description, type, startDate, durationInMonths);
+            UserId = userId;
         }
 
-        public FinancialTransaction(int id, decimal amount, string description, TransactionType type, DateTime startDate, int durationInMonths)
+        public FinancialTransaction(int id, decimal amount, string description, TransactionType type, DateTime startDate, int durationInMonths, string userId)
         {
             DomainExceptionValidation.When(id < 0, "Invalid Id.");
             Id = id;
             ValidateDomain(amount, description, type, startDate, durationInMonths);
+            UserId = userId;
         }
 
-        public void Update(decimal amount, string description, TransactionType type, int idUser, DateTime startDate, int durationInMonths)
+        public void Update(decimal amount, string description, TransactionType type, string idUser, DateTime startDate, int durationInMonths)
         {
             ValidateDomain(amount, description, type, startDate, durationInMonths);
-            IdUser = idUser;
         }
 
         private void ValidateDomain(decimal amount, string description, TransactionType type, DateTime startDate, int durationInMonths)

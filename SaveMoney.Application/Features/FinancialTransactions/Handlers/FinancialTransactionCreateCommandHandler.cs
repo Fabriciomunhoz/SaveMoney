@@ -16,10 +16,9 @@ namespace SaveMoney.Application.Features.FinancialTransactions.Handlers
 
         public async Task<FinancialTransaction> Handle(FinancialTransactionCreateCommand request, CancellationToken cancellationToken)
         {
-            var financialTransaction = new FinancialTransaction(request.Amount, request.Description, request.Type, request.StartDate, request.DurationInMonths);
+            var financialTransaction = new FinancialTransaction(request.Amount, request.Description, request.Type, request.StartDate, request.DurationInMonths, request.IdUser);
             if (financialTransaction == null)
                 throw new ApplicationException("Financial transaction is null.");
-            financialTransaction.IdUser = request.IdUser;
 
             return await _financialTransactionRepository.CreateAsync(financialTransaction);
         }

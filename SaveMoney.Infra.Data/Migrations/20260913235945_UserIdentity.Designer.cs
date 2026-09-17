@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SaveMoney.Infra.Data.Context;
 
@@ -11,9 +12,11 @@ using SaveMoney.Infra.Data.Context;
 namespace SaveMoney.Infra.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260913235945_UserIdentity")]
+    partial class UserIdentity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -190,9 +193,6 @@ namespace SaveMoney.Infra.Data.Migrations
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("ParentTransactionId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
@@ -206,8 +206,6 @@ namespace SaveMoney.Infra.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ParentTransactionId");
 
                     b.HasIndex("UserId");
 
@@ -332,18 +330,11 @@ namespace SaveMoney.Infra.Data.Migrations
 
             modelBuilder.Entity("SaveMoney.Domain.Entities.FinancialTransaction", b =>
                 {
-                    b.HasOne("SaveMoney.Domain.Entities.FinancialTransaction", "ParentTransaction")
-                        .WithMany()
-                        .HasForeignKey("ParentTransactionId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.HasOne("SaveMoney.Infra.Data.Identity.ApplicationUser", null)
                         .WithMany("FinancialTransactions")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("ParentTransaction");
                 });
 
             modelBuilder.Entity("SaveMoney.Infra.Data.Identity.ApplicationUser", b =>

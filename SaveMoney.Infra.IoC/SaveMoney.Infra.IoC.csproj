@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.31" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="10.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\SaveMoney.Application\SaveMoney.Application.csproj" />
     <ProjectReference Include="..\SaveMoney.Domain\SaveMoney.Domain.csproj" />
     <ProjectReference Include="..\SaveMoney.Infra.Data\SaveMoney.Infra.Data.csproj" />

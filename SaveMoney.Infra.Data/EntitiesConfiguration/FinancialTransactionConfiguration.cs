@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SaveMoney.Domain.Entities;
+using SaveMoney.Infra.Data.Identity;
 
 namespace SaveMoney.Infra.Data.EntitiesConfiguration
 {
@@ -17,7 +18,14 @@ namespace SaveMoney.Infra.Data.EntitiesConfiguration
             builder.Property(x => x.DurationInMonths).IsRequired();
             builder.Property(x => x.EndDate).IsRequired();
 
-            builder.HasOne(x => x.User).WithMany(x => x.FinancialTransactions).HasForeignKey(x => x.IdUser);
+            builder.HasOne<ApplicationUser>()
+            .WithMany(x => x.FinancialTransactions)
+            .HasForeignKey(x => x.UserId);
+
+            builder.HasOne(x => x.ParentTransaction)
+            .WithMany()
+            .HasForeignKey(x => x.ParentTransactionId)
+            .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

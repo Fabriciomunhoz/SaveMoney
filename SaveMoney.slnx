@@ -1,6 +1,7 @@
 <Solution>
   <Folder Name="/Itens de Solução/">
     <File Path=".gitignore" />
+    <File Path="global.json" />
     <File Path="README.md" />
   </Folder>
   <Project Path="SaveMoney.Application/SaveMoney.Application.csproj" />

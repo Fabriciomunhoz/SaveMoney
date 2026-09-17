@@ -1,12 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SaveMoney.Domain.Account;
 using SaveMoney.Infra.Data.Context;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SaveMoney.Infra.Data.Identity;
 
 namespace SaveMoney.Infra.IoC.Configurations
 {
@@ -17,7 +16,9 @@ namespace SaveMoney.Infra.IoC.Configurations
         {
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
-                   b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+                   b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)))
+                .AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
             return services;
         }
     }

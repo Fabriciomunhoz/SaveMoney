@@ -9,8 +9,9 @@ namespace SaveMoney.Application.Features.FinancialTransactions.Commands
         public decimal Amount { get; set; }
         public string Description { get; set; }
         public TransactionType Type { get; set; }
-        public int IdUser { get; set; }
+        public string IdUser { get; set; }
         public DateTime StartDate { get; set; }
         public int DurationInMonths { get; set; }
+        public int? ParentTransactionId { get; set; }
     }
 }

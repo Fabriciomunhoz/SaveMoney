@@ -20,20 +20,20 @@ namespace SaveMoney.Infra.Data.Repositories
                 .ToListAsync();
         }
 
-        public async Task<FinancialTransaction> GetByIdAsync(int? id)
-        {
-            return await _ctx.FinancialTransactions
-                .Include(x => x.User)
-                .SingleOrDefaultAsync(x => x.Id == id);
-        }
+        //public async Task<FinancialTransaction> GetByIdAsync(int? id)
+        //{
+        //    return await _ctx.FinancialTransactions
+        //        .Include(x => x.User)
+        //        .SingleOrDefaultAsync(x => x.Id == id);
+        //}
 
-        public async Task<IEnumerable<FinancialTransaction>> GetFinancialTransactionUserAsync(int? id)
-        {
-            return await _ctx.FinancialTransactions
-                .Include(x => x.User)
-                .Where(x => x.IdUser == id)
-                .ToListAsync();
-        }
+        //public async Task<IEnumerable<FinancialTransaction>> GetFinancialTransactionUserAsync(int? id)
+        //{
+        //    return await _ctx.FinancialTransactions
+        //        .Include(x => x.User)
+        //        .Where(x => x.IdUser == id)
+        //        .ToListAsync();
+        //}
 
         public async Task<FinancialTransaction> CreateAsync(FinancialTransaction financialTransaction)
         {
@@ -54,6 +54,16 @@ namespace SaveMoney.Infra.Data.Repositories
             _ctx.FinancialTransactions.Remove(financialTransaction);
             await _ctx.SaveChangesAsync();
             return financialTransaction;
+        }
+
+        public Task<FinancialTransaction> GetByIdAsync(int? id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<FinancialTransaction>> GetFinancialTransactionUserAsync(int? id)
+        {
+            throw new NotImplementedException();
         }
     }
 }
